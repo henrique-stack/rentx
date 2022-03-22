@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ES3",                                    
+    "module": "CommonJS",                               
+    "resolveJsonModule": true,           
+    "allowJs": true,                                   
+    "allowSyntheticDefaultImports": true,         
+    "esModuleInterop": true,                             
+    "forceConsistentCasingInFileNames": true,            
+    "strict": false,                            
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "baseUrl": "./src",
+    "rootDir": "./",
+    "paths": {
+      "@shared/*": ["shared/*"],
+      "@config/*": ["config/*"],
+      "@modules/*": ["modules/*"],
+      "@error/*": ["shared/infra/http/error/*"]
+    }
+  } 
+}
