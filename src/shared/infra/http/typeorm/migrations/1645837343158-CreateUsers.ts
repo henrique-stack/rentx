@@ -9,6 +9,7 @@ public async up(queryRunner: QueryRunner): Promise<void> {
                 {
                     name: "id",
                     type: "uuid",
+                    isNullable: false,
                     isPrimary: true
                 },
                 {
@@ -25,8 +26,8 @@ public async up(queryRunner: QueryRunner): Promise<void> {
                 },
                 {
                     name: "avatar",
+                    isNullable: true,
                     type: "varchar",
-                    isNullable: true
                 },
                 {
                     name: "isAdmin",

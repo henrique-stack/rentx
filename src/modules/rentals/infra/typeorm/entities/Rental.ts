@@ -1,22 +1,22 @@
-import { Cars } from "@modules/cars/infra/typeorm/entities/Cars";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
-import {v4 as uuidV4} from "uuid"; 
+import { Cars } from "../../../../cars/infra/typeorm/entities/Cars"
+import { randomUUID } from "crypto";
 
 @Entity("rentals")
 class Rental {
     @PrimaryColumn()
     id: string; 
-    
-    @ManyToOne(() => Cars)
-    @JoinColumn({ name: "car_id" })
-    car: Cars;
 
     @Column()
     car_id: string;
-    
+
     @Column()
     user_id: string;
     
+    @ManyToOne(() => Cars)
+    @JoinColumn({ name: "car_id"})
+    car: Cars;
+
     @Column()
     start_date: Date;
 
@@ -37,7 +37,7 @@ class Rental {
 
     constructor() {
         if(!this.id) {
-            this.id = uuidV4();
+            this.id = randomUUID()
         };
     };
 };

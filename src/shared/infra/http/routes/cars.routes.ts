@@ -23,6 +23,10 @@ ensureAuthenticated,
 ensureAdmin,
 createCarController.handle);
 
+//this route use id from car
+//at paramater the at paramater.
+//for do the requests
+//to make the requesitions
 carRouter.post("/specifications/:id",
 ensureAuthenticated,
 ensureAdmin,

@@ -2,7 +2,7 @@
     "type": "postgres",
     "username": "docker",
     "password": "1234",
-    "database": "rentx",
+    "database": "db_rentx",
     "port": 5432,
     "host": "localhost",
     "entities": [

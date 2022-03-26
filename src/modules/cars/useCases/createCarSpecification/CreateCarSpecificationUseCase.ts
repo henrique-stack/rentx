@@ -7,6 +7,7 @@ import { inject, injectable } from "tsyringe";
 interface IRequest {
     car_id: string;
     specification_id: string[];
+    id?: string;
 };
 
 @injectable()
@@ -18,7 +19,7 @@ class CreateCarSpecificationUseCase {
         @inject("SpecificationsRepository")
         private specificationRepository: ISpecificationsRepository,
     ) { }
-    async execute({ car_id, specification_id }: IRequest): Promise<Cars> {
+    async execute({ car_id, specification_id, id }: IRequest): Promise<Cars> {
         const existCar = await this.carsRepository.findById(car_id);
 
         if (!existCar) {
@@ -27,8 +28,14 @@ class CreateCarSpecificationUseCase {
 
         const specifications = await this.specificationRepository.findByIds(specification_id);
 
-        existCar.specifications = specifications;
+        const verifySpecification = await this.specificationRepository.verifyById(id);
 
+        if(verifySpecification) {
+            throw new AppErrors("Specification already signed in car!");
+        };
+
+        existCar.specifications = specifications;
+        
         await this.carsRepository.create(existCar);
         return existCar;
     };

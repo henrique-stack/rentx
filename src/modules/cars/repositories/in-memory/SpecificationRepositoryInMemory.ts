@@ -2,6 +2,7 @@ import { ICreateSpecificationDTO, ISpecificationsRepository } from "../ISpecific
 import { Specifications } from "@modules/cars/infra/typeorm/entities/Specifications";
 
 export class SpecificationRepositoryInMemory implements ISpecificationsRepository {
+
     specifications: Specifications[] = [];
 
     async create({ name, description }: ICreateSpecificationDTO): Promise<Specifications> {
@@ -18,5 +19,9 @@ export class SpecificationRepositoryInMemory implements ISpecificationsRepositor
     };
     async findByIds(ids: string[]): Promise<Specifications[]> {
         return this.specifications.filter(specification => ids.includes(specification.id));
+    };
+
+    async verifyById(id: string): Promise<Specifications> {
+     return this.specifications.find(specification => specification.id === id)
     };
 };

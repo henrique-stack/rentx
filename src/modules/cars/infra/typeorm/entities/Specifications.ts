@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryColumn } from 'typeorm';
-import { v4 as uuidV4 } from 'uuid';
+import { randomUUID } from "crypto";
 
 @Entity("specifications")
 class Specifications {
@@ -17,7 +17,7 @@ class Specifications {
 
     constructor() {
         if(!this.id) {
-        this.id = uuidV4();
+        this.id = randomUUID();
         };
     };
 };

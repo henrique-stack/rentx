@@ -32,6 +32,7 @@ class AuthenticateUseCase {
         private dateProvider: IDateProvider,
         ) { }
     async execute({ email, password }: IRequest): Promise<IResponse> {
+        
         const user = await this.usersRepository.findByEmail(email);
         const { secret_refresh_token, secret_token, expires_in, expires_in_refresh_token, expires_refresh_token_days } = auth;
 
@@ -50,10 +51,14 @@ class AuthenticateUseCase {
             expiresIn: expires_in
         });
 
-        const refresh_token = sign({ email }, secret_refresh_token)
+        const refresh_token = sign({ email }, secret_refresh_token, {
+            subject: user.id,
+            expiresIn: expires_in_refresh_token
+        });
+
         await this.usersTokensRepository.create({
             user_id: user.id,
-            refresh_token: expires_in_refresh_token,
+            refresh_token: refresh_token,
             expires_date: this.dateProvider.addDays(expires_refresh_token_days)
         });
 
@@ -65,6 +70,7 @@ class AuthenticateUseCase {
             token,
             refresh_token
         };
+        
         return tokenReturn;
     };
 };

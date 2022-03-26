@@ -1,7 +1,7 @@
 import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryColumn } from "typeorm";
 import { Specifications } from "./Specifications";
 import { Categories } from "./Categories";
-import { v4 as uuidV4 } from "uuid";
+import { randomUUID } from "crypto";
 
 @Entity("cars")
 class Cars {
@@ -31,6 +31,10 @@ class Cars {
 
     @Column()
     category_id: string;
+    
+    @ManyToOne(() => Categories)
+    @JoinColumn({ name: "category_id" })
+    category: Categories;
 
     @ManyToMany(() => Specifications)
     @JoinTable({
@@ -40,18 +44,13 @@ class Cars {
     })
     specifications: Specifications[];
 
-    @ManyToOne(() => Categories)
-    @JoinColumn({ name: "category_id" })
-    category: Categories;
-
     @CreateDateColumn()
     created_at: Date;
 
     constructor() {
         if (!this.id) {
-            this.id = uuidV4();
+            this.id = randomUUID();
             this.available = true;
-            this.created_at = new Date();
         };
     };
 };

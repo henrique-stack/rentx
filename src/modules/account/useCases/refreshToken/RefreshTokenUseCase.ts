@@ -2,24 +2,37 @@ import auth from "@config/auth";
 import { IUsersTokensRepository } from "@modules/account/repositories/IUsersTokensRepository";
 import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
 import { AppErrors } from "@shared/infra/http/error/AppErrors";
-import { verify, sign } from "jsonwebtoken";
 import { inject, injectable } from "tsyringe";
+import { verify, sign } from "jsonwebtoken";
 
 interface IPayload {
     sub: string;
     email: string;
 };
 
+interface IResponse {
+    refresh_token: string;
+    token: string;
+};
+
+const { 
+    secret_refresh_token,
+    expires_in_refresh_token, 
+    expires_in_token, 
+    expires_refresh_token_days, 
+    secret_token 
+      } = auth;
+
 @injectable()
-class CreateRefreshTokenUseCase {
+class RefreshTokenUseCase {
     constructor(
         @inject("UsersTokensRepository")
         private usersTokensRepository: IUsersTokensRepository,
         @inject("DayjsDateProvider")
         private dateProvider: IDateProvider,
     ) { }
-   async execute(token: string): Promise<string> {
-       const { email, sub } = verify(token, auth.secret_refresh_token) as IPayload;
+   async execute(token: string): Promise<IResponse> {
+       const { email, sub } = verify(token, secret_refresh_token) as IPayload;
        
        const user_id = sub;
 
@@ -29,28 +42,36 @@ class CreateRefreshTokenUseCase {
            );
 
        if(!userToken) {
-           throw new AppErrors("Refresh Token does not exists!");
+           throw new AppErrors("Refresh Token doesn't exists!");
        };
 
        await this.usersTokensRepository.deleteById(userToken.id);
 
-       const refresh_token = sign({ email }, auth.secret_refresh_token, {
+       const refresh_token = sign({ email }, secret_refresh_token, {
            subject: sub,
-           expiresIn: auth.expires_in_refresh_token
+           expiresIn: expires_in_refresh_token
        });
 
        const expires_date = this.dateProvider.addDays(
-           auth.expires_refresh_token_days
+           expires_refresh_token_days
        );
 
        await this.usersTokensRepository.create({
            expires_date, 
            refresh_token,
-           user_id
+           user_id,
        });
 
-       return refresh_token;
+       const new_token = sign({}, secret_token, {
+        subject: user_id,
+        expiresIn: expires_in_token,
+      });
+
+       return { 
+           refresh_token,
+           token: new_token,
+       };
     };
 };
  
-export { CreateRefreshTokenUseCase };
+export { RefreshTokenUseCase };

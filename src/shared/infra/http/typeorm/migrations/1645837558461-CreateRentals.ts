@@ -60,10 +60,10 @@
 //                         onUpdate: "SET NULL"
 //                     },
 //                     {
-//                         name: "FKUserRentals",
-//                         referencedTableName: "users",
-//                         columnNames: ["user_id"],
-//                         referencedColumnNames: ["id"],
+//                         name: "FKUserRentals", 
+//                         referencedTableName: "users",  //another table.
+//                         columnNames: ["user_id"], // column referenced in extern table.
+//                         referencedColumnNames: ["id"], //column this table.
 //                         onDelete: "SET NULL",
 //                         onUpdate: "SET NULL"
 //                     }
@@ -75,5 +75,4 @@
 //     public async down(queryRunner: QueryRunner): Promise<void> {
 //         await queryRunner.dropTable("rentals")
 //     };
-
 // }

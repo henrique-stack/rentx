@@ -19,6 +19,7 @@ class Users {
     isAdmin: boolean;
 
     @Column()
+    type: 'text';
     avatar: string;
 
     @Column()

@@ -1,11 +1,11 @@
-import { AuthenticateUserController } from "@modules/account/useCases/createUser/authenticateUser/AuthenticateUserController";
-import { CreateRefreshTokenController } from "@modules/account/useCases/refreshToken/CreateRefreshTokenController";
+import { AuthenticateController } from "@modules/account/useCases/createUser/authenticateUser/AuthenticateController";
+import { RefreshTokenController } from "@modules/account/useCases/refreshToken/RefreshTokenController";
 import { Router } from "express";
 const authenticateRouter = Router();
 
-const authenticateUserController = new AuthenticateUserController();
-const refreshTokensController = new CreateRefreshTokenController();
-authenticateRouter.post("/sessions", authenticateUserController.handle);
+const authenticateController = new AuthenticateController();
+const refreshTokensController = new RefreshTokenController();
+authenticateRouter.post("/sessions", authenticateController.handle);
 authenticateRouter.post("/refresh-token", refreshTokensController.handle);
 
 export { authenticateRouter };

@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import "@shared/container";
 import "express-async-errors";
-import createConnection from "@shared/infra/http/typeorm";
+import createConnection from "./typeorm";
 import express, { Request, Response, NextFunction } from "express";
 import { router } from "@shared/infra/http/routes";
 import { AppErrors } from "@error/AppErrors";
