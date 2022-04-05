@@ -1,14 +1,16 @@
-import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository";
-import { IRentalsRepository } from "@modules/rentals/repositories/IRentalsRepository";
 import { IDateProvider } from "@shared/container/providers/DateProvider/IDateProvider";
+import { IRentalsRepository } from "@modules/rentals/repositories/IRentalsRepository";
+import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository";
 import { AppErrors } from "@shared/infra/http/error/AppErrors";
-import { inject } from "tsyringe";
+import { inject, injectable } from "tsyringe";
+import { Rental } from "@modules/rentals/infra/typeorm/entities/Rental";
 
 interface IRequest {
-    id: string;
     user_id: string;
+    car_id: string;
 };
 
+@injectable()
 class CreateDevolutionRentalUseCase {
     constructor(
         @inject("RentalsRepository")
@@ -19,8 +21,8 @@ class CreateDevolutionRentalUseCase {
         private carsRepository: ICarsRepository,
     ) { }
 
-        async execute({ id }: IRequest) {
-           const rental = await this.rentalRepository.findById(id);
+        async execute({ user_id }: IRequest): Promise<Rental> {
+           const rental = await this.rentalRepository.findById(user_id);
            let minimun_dayle = 1;
            const car = await this.carsRepository.findById(rental.car_id);
 
@@ -28,15 +30,17 @@ class CreateDevolutionRentalUseCase {
             throw new AppErrors("retal does not exists");
            };
 
+           const dateNow = this.dateProvider.dateNow();
+
            let dayle = this.dateProvider.compareInDays(
             rental.start_date,
-            this.dateProvider.dateNow()
+            dateNow
            )
-           const dateNow = this.dateProvider.dateNow()
+           
            const delay = this.dateProvider.compareInHours(
             dateNow,
             rental.expected_return_date
-           )
+           );
 
            if(dayle <= 0) {
                dayle = minimun_dayle;

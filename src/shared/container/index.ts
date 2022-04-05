@@ -1,13 +1,13 @@
 import { container } from "tsyringe";
 import "@shared/container/providers";
-import { UsersRepository } from "@modules/account/infra/repositories/UsersRepository";
 import { SpecificationsRepository } from "@modules/cars/infra/repositories/SpecificationsRepository";
-import { CategoriesRepository } from "@modules/cars/infra/repositories/CategoriesRepository";
-import { IUsersRepository } from "@modules/account/repositories/IUsersRepository";
 import { ISpecificationsRepository } from "@modules/cars/repositories/ISpecificationsRepository";
-import { ICategoriesRepository } from "@modules/cars/repositories/ICategoriesRepository";
+import { CategoriesRepository } from "@modules/cars/infra/repositories/CategoriesRepository";
+import { UsersRepository } from "@modules/account/infra/repositories/UsersRepository";
+import { IUsersRepository } from "@modules/account/repositories/IUsersRepository";
 import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository";
 import { CarsRepository } from "@modules/cars/infra/repositories/CarsRepository";
+import { ICategoriesRepository } from "@modules/cars/repositories/ICategoriesRepository";
 import { ICarImageRepository } from "@modules/cars/repositories/ICarImageRepository";
 import { CarsImageRepository } from "@modules/cars/infra/repositories/CarsImageRepository";
 import { IRentalsRepository } from "@modules/rentals/repositories/IRentalsRepository";

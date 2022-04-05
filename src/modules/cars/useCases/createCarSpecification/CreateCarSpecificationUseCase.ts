@@ -20,24 +20,18 @@ class CreateCarSpecificationUseCase {
         private specificationRepository: ISpecificationsRepository,
     ) { }
     async execute({ car_id, specification_id, id }: IRequest): Promise<Cars> {
-        const existCar = await this.carsRepository.findById(car_id);
+        const carSpecifications = await this.carsRepository.findById(car_id);
 
-        if (!existCar) {
+        if (!carSpecifications) {
             throw new AppErrors("car doesn't exist!");
         };
 
         const specifications = await this.specificationRepository.findByIds(specification_id);
 
-        const verifySpecification = await this.specificationRepository.verifyById(id);
-
-        if(verifySpecification) {
-            throw new AppErrors("Specification already signed in car!");
-        };
-
-        existCar.specifications = specifications;
+        carSpecifications.specifications = specifications;
         
-        await this.carsRepository.create(existCar);
-        return existCar;
+        await this.carsRepository.create(carSpecifications);
+        return carSpecifications;
     };
 };
 export { CreateCarSpecificationUseCase };

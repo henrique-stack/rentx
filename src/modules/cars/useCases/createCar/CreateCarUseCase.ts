@@ -44,7 +44,7 @@ class CreateCarUseCase {
       brand,
       category_id
     });
-    return car;
+    return car; // this code is exit data from function.
   };
 };
 

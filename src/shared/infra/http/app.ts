@@ -28,6 +28,6 @@ app.use(
         status: "error",
         message: `Internal server - error ${err.message}`,
     });
- });
+});
 
 export { app };

@@ -1,7 +1,9 @@
-import { IMailProvider } from "../IMailProvider";
 import nodemailer, { Transporter } from "nodemailer";
+import { IMailProvider } from "../IMailProvider";
+import { injectable } from "tsyringe";
 
-class EtherealMailProvider implements IMailProvider{
+@injectable()
+class EtherealMailProvider implements IMailProvider {
     private client: Transporter;
 
     constructor() {
@@ -16,7 +18,7 @@ class EtherealMailProvider implements IMailProvider{
                     user: account.user,
                     pass: account.pass
                 }
-            })
+            }),
             this.client = transport;
         })
         .catch(err => console.log('Some error here!', err));
@@ -25,7 +27,7 @@ class EtherealMailProvider implements IMailProvider{
     async sendMail(to: string, subject: string, body: string): Promise<void> {
         const message = await this.client.sendMail({
             to,
-            from: "<Rentx noreply@admin@.com>",
+            from: "<Rentx noreply@admin.com>",
             subject,
             text: body,
             html: body

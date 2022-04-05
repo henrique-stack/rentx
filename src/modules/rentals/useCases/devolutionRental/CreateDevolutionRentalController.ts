@@ -6,12 +6,12 @@ import { container } from "tsyringe";
 class CreateDevolutionRentalController {
     async handle(request: Request, response: Response): Promise<Response> {
         const { id: user_id } = request.user;
-        const { id } = request.params;
+        const { car_id } = request.params;
         const devolutionUseCase = container.resolve(CreateDevolutionRentalUseCase);
 
         const rental = await devolutionUseCase.execute({
-            id,
-            user_id
+            user_id,
+            car_id,
         });
 
         return response.status(200).json(rental);

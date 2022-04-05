@@ -2,7 +2,7 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn,
 import { Cars } from "../../../../cars/infra/typeorm/entities/Cars"
 import { randomUUID } from "crypto";
 
-@Entity("rentals")
+@Entity("rental")
 class Rental {
     @PrimaryColumn()
     id: string; 
@@ -41,4 +41,5 @@ class Rental {
         };
     };
 };
+
 export { Rental };

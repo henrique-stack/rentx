@@ -8,5 +8,3 @@ export interface ICarsRepository {
     findAvailable(name?: string, brand?: string, category_id?: string): Promise<Cars[]>;
     updateAvailable(id: string, available?: boolean): Promise<void>; // did in format of return <void> because this
 };                                                                   // method is only consult/update datas
-
-//20 para 4;
